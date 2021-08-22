@@ -1,6 +1,11 @@
 import React, { FC } from "react"
+// import NextLink from "next/link"
 export const HelloWorld: FC = () => {
 	return (
-		<p>Hello World</p>
+	    <div>
+	    {/*<NextLink>*/}
+		    <p>Hello World</p>
+        {/*</NextLink>*/}
+        </div>
 	)
 }
