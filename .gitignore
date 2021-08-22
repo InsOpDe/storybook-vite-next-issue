@@ -10,3 +10,4 @@ src/styles/tailwind.module.css
 coverage
 junit.xml
 junit.integration.xml
+.idea

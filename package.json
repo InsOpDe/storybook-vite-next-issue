@@ -1,0 +1,114 @@
+{
+	"author": "Marcel Michelfelder",
+	"dependencies": {
+		"react": "17.0.1"
+	},
+	"devDependencies": {
+		"@rollup/plugin-node-resolve": "^13.0.4",
+		"@storybook/addon-actions": "^6.0.22",
+		"@storybook/addon-contexts": "^5.3.21",
+		"@storybook/addon-essentials": "^6.0.22",
+		"@storybook/addon-info": "^5.3.21",
+		"@storybook/addon-links": "^6.0.22",
+		"@storybook/addons": "^6.0.22",
+		"@storybook/preset-typescript": "^3.0.0",
+		"@storybook/react": "^6.3.7",
+		"@types/node": "^14.11.5",
+		"@types/react": "^16.9.49",
+		"@types/react-dom": "^16.9.8",
+		"react": "17.0.1",
+		"react-docgen-typescript": "^1.20.5",
+		"react-dom": "17.0.1",
+		"react-is": "17.0.1",
+		"rollup-plugin-polyfill-node": "^0.7.0",
+		"storybook-addon-next-router": "^2.0.0",
+		"storybook-addon-turbo-build": "^1.0.0-beta.1",
+		"storybook-builder-vite": "^0.0.12",
+		"typescript": "^4.1.3",
+		"vite": "^2.4.1"
+	},
+	"engines": {
+		"node": ">=10"
+	},
+	"files": [
+		"dist",
+		"src"
+	],
+	"integration": {
+		"artefactPaths": [
+			"__image_snapshots__"
+		],
+		"resources": {
+			"builder": {
+				"cpu": {
+					"limit": "2",
+					"request": "1"
+				},
+				"memory": {
+					"limit": "6Gi",
+					"request": "3Gi"
+				}
+			}
+		},
+		"shouldPublishLibrary": true
+	},
+	"license": "MIT",
+	"lint-staged": {
+		"src/**/*.{js,ts,jsx,tsx}": [
+			"yarn lint:prod:fix"
+		]
+	},
+	"main": "dist/index.js",
+	"module": "dist/index.js",
+	"name": "@teamparallax/vite-test",
+	"peerDependencies": {
+		"react": ">=16"
+	},
+	"prettier": {
+		"printWidth": 80,
+		"semi": true,
+		"singleQuote": true,
+		"trailingComma": "es5"
+	},
+	"scripts": {
+		"analyze": "size-limit --why",
+		"build": "yarn build:tailwind && yarn build:tsdx",
+		"build-storybook": "build-storybook -s static",
+		"build-storybook:watch": "rimraf storybook-static; yarn build:tailwind && STORYBOOK_CI=true build-storybook -s static -w",
+		"build:size": "yarn build; yarn size",
+		"build:tailwind": "tailwind build src/styles/tailwind.css > src/styles/tailwind.module.css",
+		"build:tsdx": "rimraf dist && tsdx build --format esm",
+		"build:use-cache": "ts-node --project ../tools/tsconfig.json ../tools/src/artifact-manager/index.ts",
+		"dev:frontend": "run-p start storybook",
+		"lint": "eslint src --ext .tsx,.ts,.js",
+		"lint:prod": "yarn lint -c .eslintrc.yml",
+		"lint:prod:fix": "yarn lint:prod --fix",
+		"precommit": "lint-staged",
+		"prepare:frontend:pre": "yarn build:use-cache",
+		"prepush": "yarn -s test:types && yarn -s test:lint",
+		"size": "size-limit",
+		"start": "ulimit -v 4000000; cpulimit -l 50 -f -- tsdx watch --format esm",
+		"storybook:restrained": "ulimit -v 4000000; cpulimit -l 50 -f -- yarn storybook",
+		"storybook:tailwind": "yarn build:tailwind && yarn storybook",
+		"storybook": "start-storybook -p 6006 -s static --no-manager-cache",
+		"test": "jest --config ./jest.config.js --color --verbose --passWithNoTests --no-cache",
+		"test:integration": "INTEGRATION=true yarn test",
+		"test:integration:ci": "STORYBOOK_CI=true yarn build-storybook --quiet && CI=true yarn test:integration:coverage",
+		"test:integration:coverage": "JEST_JUNIT_OUTPUT_NAME=junit.integration.xml yarn test:integration --coverage --reporters=default --reporters=jest-junit",
+		"test:integration:update": "CI=true STORYBOOK_CI=true yarn test:integration -u",
+		"test:integration:watch": "INTEGRATION=true yarn test --watchAll",
+		"test:integration:watch:ci": "CI=true STORYBOOK_CI=true yarn test:integration:watch",
+		"test:lint": "yarn lint:prod",
+		"test:types": "tsc --noEmit",
+		"test:unit": "UNIT=true yarn test",
+		"test:unit:ci": "yarn test:unit --coverage --reporters=default --reporters=jest-junit"
+	},
+	"size-limit": [
+		{
+			"limit": "20 KB",
+			"path": "dist/*.js"
+		}
+	],
+	"typings": "dist/index.d.ts",
+	"version": "7.20.0"
+}
