@@ -1,0 +1,12 @@
+*.log
+.DS_Store
+node_modules
+.cache
+dist
+storybook-static
+/stories/__image_snapshots__/__diff_output__/
+/**/__image_snapshots__/__diff_output__/
+src/styles/tailwind.module.css
+coverage
+junit.xml
+junit.integration.xml
